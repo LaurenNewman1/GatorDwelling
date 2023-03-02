@@ -10,10 +10,9 @@ var _db;
 module.exports = {
   connectToServer: async function (callback) {
     await client.connect();
-    const database = client.db("gator-dwelling");
-    _db = database;
+    _db = client.db("gator-dwelling");
     console.log("Connected to database");
-    return database
+    return _db;
   },
  
   getDb: function () {

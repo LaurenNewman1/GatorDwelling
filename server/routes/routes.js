@@ -1,17 +1,15 @@
 const express = require("express");
-const recordRoutes = express.Router();
+const router = express.Router();
 const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
-recordRoutes.route("/dwellings").get(function (req, res) {
-    let db_connect = dbo.getDb("gator-dwelling");
-    db_connect
-      .collection("dwellings")
-      .find({})
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      });
-   });
+router.route("/dwellings").get(async function (req, res) {
+    try {
+        const data = await dbo.getDb().collection("dwellings").find({}).toArray();
+        res.status(200).send(data);
+    } catch {
+        res.status(400).type('json').send(err);
+    }
+});
 
-module.exports = recordRoutes;
+module.exports = router;
