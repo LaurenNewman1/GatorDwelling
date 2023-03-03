@@ -12,4 +12,13 @@ router.route("/dwellings").get(async function (req, res) {
     }
 });
 
+router.route("/reviews/:id").get(async function (req, res) {
+    try {
+        const data = await dbo.getDb().collection("reviews").find({id: req.params.id}).toArray();
+        res.status(200).send(data);
+    } catch {
+        res.status(400).type('json').send(err);
+    }
+});
+
 module.exports = router;
